@@ -1,566 +1,658 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Clé de Samui — Votre meilleur ami à Koh Samui</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Outfit',sans-serif;background:#f9f2e2;color:#1c3a28;overflow-x:hidden}
-a{text-decoration:none;color:inherit}
-img{display:block;width:100%}
-:root{
-  --forest:#1c3a28;--sage:#4a8060;--mint:#7ec8a0;
-  --sand:#f9f2e2;--sand2:#f2ead6;
-  --gold:#b8975a;--gold-lt:#d4b07a;
-  --muted:#5a7060;--border:rgba(28,58,40,.12);
-}
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Clé de Samui — Conciergerie de Luxe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --cream: #f9f1e2;
+      --dark: #1B3A2D;
+      --gold: #8B6914;
+      --gold-light: #c5a84a;
+      --text: #2c2c2c;
+      --light-gray: #f9f1e2;
+      --border: #ddd3be;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; color: var(--text); background: #f9f1e2; overflow-x: hidden; }
 
-/* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;transition:background .4s,box-shadow .4s}
-nav.scrolled{background:rgba(249,242,226,.96);backdrop-filter:blur(16px);box-shadow:0 2px 24px rgba(28,58,40,.08);border-bottom:1px solid var(--border)}
-.nav-wrap{max-width:1180px;margin:0 auto;padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{display:flex;align-items:center;gap:12px}
-.nav-logo-text{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.1rem;letter-spacing:.04em;color:#fff;line-height:1;transition:color .4s}
-nav.scrolled .nav-logo-text{color:var(--forest)}
-.nav-logo-text small{display:block;font-family:'Outfit',sans-serif;font-weight:400;font-size:.46rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:3px;transition:color .4s}
-nav.scrolled .nav-logo-text small{color:var(--sage)}
-.nav-links{display:flex;align-items:center;gap:38px;list-style:none}
-.nav-links a{font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.8);position:relative;transition:color .4s}
-nav.scrolled .nav-links a{color:var(--forest)}
-.nav-links a::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--gold);transition:width .25s}
-.nav-links a:hover::after{width:100%}
-.nav-cta{background:rgba(255,255,255,.15);backdrop-filter:blur(8px);color:#fff;font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:10px 26px;border:1px solid rgba(255,255,255,.3);transition:all .3s}
-nav.scrolled .nav-cta{background:var(--forest);border-color:var(--forest);color:var(--sand)}
-.nav-cta:hover{background:rgba(255,255,255,.3)}
-nav.scrolled .nav-cta:hover{background:transparent;color:var(--forest)}
-.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
-.nav-burger span{display:block;width:22px;height:1.5px;background:#fff;transition:background .4s}
-nav.scrolled .nav-burger span{background:var(--forest)}
 
-/* ── HERO ── */
-.hero{position:relative;height:100vh;min-height:680px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    /* ─── KEYHOLE ANIMATION ─── */
+    .keyhole-wrap {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .keyhole-svg {
+      width: clamp(160px, 22vw, 280px);
+      height: auto;
+      opacity: 0;
+      animation: keyholeReveal 1.4s cubic-bezier(.4,0,.2,1) .3s forwards;
+      filter: drop-shadow(0 0 18px rgba(197,168,74,0.18));
+    }
+    .keyhole-svg .ring {
+      stroke-dasharray: 314;
+      stroke-dashoffset: 314;
+      animation: drawRing 1s ease .5s forwards;
+    }
+    .keyhole-svg .body {
+      stroke-dasharray: 260;
+      stroke-dashoffset: 260;
+      animation: drawBody 1s ease .9s forwards;
+    }
+    @keyframes keyholeReveal {
+      from { opacity: 0; transform: scale(.88); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes drawRing {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes drawBody {
+      to { stroke-dashoffset: 0; }
+    }
+    /* subtle breathe loop after reveal */
+    .keyhole-svg {
+      animation: keyholeReveal 1.4s cubic-bezier(.4,0,.2,1) .3s forwards,
+                 keyholeBreath 4s ease-in-out 1.8s infinite;
+    }
+    @keyframes keyholeBreath {
+      0%,100% { filter: drop-shadow(0 0 12px rgba(197,168,74,0.15)); }
+      50%      { filter: drop-shadow(0 0 28px rgba(197,168,74,0.38)); }
+    }
 
-/* Photo fond plein écran */
-.hero-bg{position:absolute;inset:0;z-index:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;animation:zoom 20s ease-in-out infinite alternate}
-@keyframes zoom{from{transform:scale(1)}to{transform:scale(1.06)}}
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 80px;
+      background: rgba(249,241,226,0.97);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,.07); }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { height: 52px; width: auto; }
+    .nav-logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; color: var(--dark); letter-spacing: .08em; line-height: 1.2; }
+    .nav-logo-text span { display: block; font-size: 1.35rem; font-weight: 600; letter-spacing: .18em; }
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a { text-decoration: none; font-size: .78rem; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--dark); position: relative; padding-bottom: 3px; transition: color .2s; }
+    .nav-links a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--gold); transition: width .3s; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { background: var(--dark); color: #fff !important; padding: 10px 24px !important; border-radius: 2px; }
+    .nav-cta:hover { background: var(--gold) !important; color: #fff !important; }
+    .nav-cta::after { display:none !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--dark); transition: .3s; }
 
-/* Voile sombre autour — mais PAS sur la serrure */
-.hero-veil{position:absolute;inset:0;z-index:1;background:rgba(8,20,12,.52)}
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; height: 100vh; min-height: 600px;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      overflow: hidden;
+    }
+    .hero-bg video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .hero-bg::after {
+      content:''; position:absolute; inset:0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.35) 0%, rgba(0,0,0,.5) 100%);
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 800px; padding: 0 20px; animation: fadeUp .9s ease .2s both; }
+    .hero-eyebrow { font-size: .7rem; font-weight: 300; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.75); margin-bottom: 20px; }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 300; color: #fff; line-height: 1.1; margin-bottom: 10px;
+      text-shadow: 0 2px 20px rgba(0,0,0,.3);
+    }
+    .hero-title strong { display: block; font-weight: 600; letter-spacing: .15em; }
+    .hero-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(1rem,2vw,1.4rem); color: rgba(255,255,255,.85); margin: 16px 0 36px; font-weight: 300; }
+    .hero-separator { width: 40px; height: 1px; background: var(--gold-light); margin: 0 auto 32px; }
+    .hero-tagline { font-size: .75rem; letter-spacing: .25em; text-transform: uppercase; color: rgba(255,255,255,.65); margin-bottom: 40px; }
+    .btn { display: inline-block; text-decoration: none; font-size: .72rem; font-weight: 400; letter-spacing: .18em; text-transform: uppercase; padding: 14px 36px; transition: .25s; border-radius: 2px; }
+    .btn-light { background: #fff; color: var(--dark); }
+    .btn-light:hover { background: var(--gold-light); color: #fff; }
+    .btn-dark { background: var(--dark); color: #fff; }
+    .btn-dark:hover { background: var(--gold); }
+    .hero-scroll { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
+    .hero-scroll span { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+    .scroll-arrow { width: 1px; height: 40px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,.5)); animation: scrollPulse 2s infinite; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollPulse { 0%,100%{opacity:.3;transform:scaleY(.7)translateY(-6px)} 50%{opacity:1;transform:scaleY(1)translateY(0)} }
 
-/* Contenu centré */
-.hero-body{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 24px}
+    /* ─── SECTION BASE ─── */
+    section { padding: 90px 40px; }
+    .section-eyebrow { font-size: .65rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,3.5vw,3rem); font-weight: 400; color: var(--dark); margin-bottom: 16px; line-height: 1.15; }
+    .section-line { width: 40px; height: 1px; background: var(--gold); margin: 0 auto 20px; }
+    .section-intro { max-width: 540px; margin: 0 auto 60px; font-size: .88rem; font-weight: 300; line-height: 1.9; color: #555; text-align: center; }
 
-/* ── SERRURE GÉANTE ── */
-.keyhole-outer{position:relative;width:320px;height:400px;margin:0 auto 44px;animation:rise 1s .1s ease both}
+    /* ─── SERVICES ─── */
+    #services { background: var(--cream); }
+    .services-header { text-align: center; margin-bottom: 60px; }
+    .services-grid {
+      max-width: 900px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .service-item { border-top: 1px solid var(--border); }
+    .service-item:last-child { border-bottom: 1px solid var(--border); }
+    .service-trigger {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 0; cursor: pointer;
+      font-size: .88rem; font-weight: 400; letter-spacing: .06em; color: var(--dark);
+      transition: color .2s;
+    }
+    .service-trigger:hover { color: var(--gold); }
+    .service-trigger-left { display: flex; align-items: center; gap: 16px; }
+    .service-check { width: 22px; height: 22px; border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .service-check svg { width: 10px; height: 10px; fill: none; stroke: var(--gold); stroke-width: 2; }
+    .service-plus { font-size: 1.4rem; font-weight: 200; color: var(--gold); transition: transform .3s; line-height:1; }
+    .service-item.open .service-plus { transform: rotate(45deg); }
+    .service-body { display: none; padding: 0 0 24px 38px; font-size: .83rem; font-weight: 300; line-height: 1.9; color: #555; max-width: 680px; }
+    .service-body ul { margin-top: 10px; padding-left: 18px; }
+    .service-body li { margin-bottom: 6px; }
+    .service-body strong { color: var(--dark); font-weight: 500; }
+    .service-item.open .service-body { display: block; }
 
-/* Masque SVG clip */
-.keyhole-mask{position:absolute;inset:0;overflow:hidden}
-.keyhole-mask svg{position:absolute;width:0;height:0}
+    /* ─── DESTINATIONS ─── */
+    #destinations { background: #f9f1e2; }
+    .dest-header { text-align: center; }
+    .dest-cards { max-width: 1100px; margin: 60px auto 0; display: flex; flex-direction: column; gap: 70px; }
+    .dest-card { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .dest-card.reverse { direction: rtl; }
+    .dest-card.reverse > * { direction: ltr; }
+    .dest-card-img { position: relative; overflow: hidden; border-radius: 2px; aspect-ratio: 4/3; }
+    .dest-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+    .dest-card-img:hover img { transform: scale(1.04); }
+    .dest-card-img .dest-tag { position: absolute; top: 20px; left: 20px; background: var(--dark); color: #fff; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; padding: 6px 14px; }
+    .dest-card-content {}
+    .dest-card-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 400; color: var(--dark); margin-bottom: 6px; }
+    .dest-card-subtitle { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+    .dest-card-desc { font-size: .85rem; font-weight: 300; line-height: 1.9; color: #555; margin-bottom: 28px; }
+    .dest-link { font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--dark); text-decoration: none; padding-bottom: 3px; border-bottom: 1px solid var(--dark); transition: .2s; }
+    .dest-link:hover { color: var(--gold); border-color: var(--gold); }
 
-/* La photo à l'intérieur de la serrure */
-.keyhole-inside{
-  position:absolute;inset:0;
-  clip-path:path('M 160,10 a 100,100 0 1,0 0,200 a 100,100 0 1,0 0,-200 Z M 105,205 L 60,390 Q 58,400 75,400 L 245,400 Q 262,400 260,390 L 215,205 Z');
-  overflow:hidden;
-}
-.keyhole-inside img{width:100%;height:100%;object-fit:cover;animation:zoom2 18s ease-in-out infinite alternate}
-@keyframes zoom2{from{transform:scale(1.05)}to{transform:scale(1.14) translateY(-6px)}}
+    /* Villas Banner */
+    .villas-banner {
+      max-width: 1100px; margin: 70px auto 0;
+      background: var(--dark); color: #fff;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 40px 50px; border-radius: 2px; gap: 30px; flex-wrap: wrap;
+    }
+    .villas-banner h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; }
+    .villas-banner p { font-size: .82rem; font-weight: 300; opacity: .8; margin-top: 6px; max-width: 400px; }
+    .btn-outline { border: 1px solid rgba(255,255,255,.5); color: #fff; background: transparent; }
+    .btn-outline:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
 
-/* Contour doré de la serrure */
-.keyhole-border{position:absolute;inset:0;z-index:2;pointer-events:none}
+    /* ─── CONTACT ─── */
+    #contact { background: var(--cream); }
+    .contact-wrapper { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.8fr; gap: 70px; }
+    .contact-info h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 400; color: var(--dark); margin-bottom: 20px; line-height: 1.2; }
+    .contact-info p { font-size: .83rem; font-weight: 300; line-height: 1.9; color: #555; margin-bottom: 36px; }
+    .contact-detail { display: flex; flex-direction: column; gap: 18px; }
+    .c-item { display: flex; align-items: flex-start; gap: 14px; }
+    .c-icon { width: 36px; height: 36px; border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .9rem; }
+    .c-text { font-size: .8rem; font-weight: 300; color: #555; line-height: 1.6; }
+    .c-text strong { display: block; font-weight: 500; color: var(--dark); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; }
+    .contact-form { display: flex; flex-direction: column; gap: 18px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; color: var(--dark); font-weight: 400; }
+    .form-group input, .form-group select, .form-group textarea {
+      border: 1px solid var(--border); padding: 12px 14px; font-family: 'Jost', sans-serif;
+      font-size: .82rem; font-weight: 300; background: #fdf8f0; color: var(--text);
+      outline: none; border-radius: 2px; transition: border-color .2s;
+      appearance: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-submit { align-self: flex-start; }
+    .form-note { font-size: .72rem; font-weight: 300; color: #999; margin-top: -6px; }
 
-/* Lueur dorée autour */
-.keyhole-glow{position:absolute;inset:-20px;z-index:1;pointer-events:none;background:radial-gradient(ellipse 200px 260px at 160px 200px, rgba(184,151,90,.18) 0%, transparent 70%)}
+    /* ─── FOOTER ─── */
+    footer { background: var(--dark); color: rgba(255,255,255,.7); padding: 50px 40px 30px; }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 40px; margin-bottom: 40px; }
+    .footer-brand .nav-logo-text { color: #fff; }
+    .footer-tagline { font-size: .78rem; font-weight: 300; color: rgba(255,255,255,.5); margin-top: 10px; font-style: italic; font-family: 'Cormorant Garamond', serif; }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links h4 { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 6px; }
+    .footer-links a { text-decoration: none; color: rgba(255,255,255,.6); font-size: .8rem; font-weight: 300; transition: color .2s; }
+    .footer-links a:hover { color: var(--gold-light); }
+    .footer-social { display: flex; gap: 12px; margin-top: 8px; }
+    .footer-social a { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: .2s; }
+    .footer-social a:hover { border-color: var(--gold-light); background: rgba(197,168,74,.1); }
+    .footer-social svg { width: 14px; height: 14px; fill: rgba(255,255,255,.6); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-size: .72rem; font-weight: 300; }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a { font-size: .68rem; font-weight: 300; color: rgba(255,255,255,.4); text-decoration: none; transition: color .2s; }
+    .footer-legal a:hover { color: var(--gold-light); }
 
-/* Texte hero */
-.hero-eyebrow{font-size:.58rem;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:18px;animation:rise .8s ease both}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5vw,4.2rem);font-weight:600;line-height:1;color:#fff;text-shadow:0 4px 40px rgba(0,0,0,.3);animation:rise .9s .06s ease both;margin-bottom:14px}
-.hero-title em{font-style:italic;font-weight:300;color:rgba(184,151,90,.9);display:block;font-size:.52em;letter-spacing:.06em;margin-top:10px}
-.hero-rule{display:flex;align-items:center;gap:14px;margin:22px auto;width:fit-content;animation:rise .9s .14s ease both}
-.hero-rule-line{height:1px;width:48px;background:rgba(255,255,255,.2)}
-.hero-rule-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.7}
-.hero-sub{font-size:.86rem;font-weight:300;color:rgba(255,255,255,.65);line-height:1.9;max-width:480px;margin-bottom:36px;animation:rise .9s .2s ease both}
-.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:rise .9s .26s ease both}
-.btn-prim{background:#fff;color:var(--forest);font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:15px 38px;border:1px solid #fff;transition:all .25s}
-.btn-prim:hover{background:transparent;color:#fff}
-.btn-sec{background:transparent;color:rgba(255,255,255,.8);font-size:.68rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;padding:15px 24px;border:1px solid rgba(255,255,255,.25);transition:all .25s}
-.btn-sec:hover{border-color:rgba(255,255,255,.6);color:#fff}
-
-@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-
-/* Scroll */
-.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.35);font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;animation:bob 3s ease-in-out infinite}
-.hero-scroll-bar{width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent)}
-@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
-
-/* Vague bas du hero */
-.hero-wave{position:absolute;bottom:-1px;left:0;right:0;z-index:4;pointer-events:none}
-.hero-wave svg{display:block;width:100%}
-
-/* ── FIGURES ── */
-.figures{background:var(--forest);padding:54px 48px;position:relative;overflow:hidden}
-.figures::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,.022) 39px,rgba(255,255,255,.022) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,.022) 39px,rgba(255,255,255,.022) 40px)}
-.figures-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);text-align:center;position:relative;z-index:1}
-.fig{padding:0 20px;border-right:1px solid rgba(255,255,255,.1)}
-.fig:last-child{border-right:none}
-.fig-val{font-family:'Cormorant Garamond',serif;font-size:3.4rem;font-weight:600;line-height:1;color:#fff;margin-bottom:8px}
-.fig-val span{color:var(--gold-lt);font-style:italic}
-.fig-lbl{font-size:.58rem;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.36)}
-
-/* ── LAYOUT ── */
-.wrap{max-width:1180px;margin:0 auto;padding:0 48px}
-.sec{padding:112px 0}
-.eyebrow{font-size:.58rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px}
-.eyebrow.lt{color:var(--gold-lt)}
-.h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:600;line-height:1.12;color:var(--forest);margin-bottom:20px}
-.h2 em{font-style:italic;font-weight:300;color:var(--sage)}
-.h2.lt{color:#fff}.h2.lt em{color:var(--mint)}
-.body-text{font-size:.86rem;font-weight:300;color:var(--muted);line-height:1.92}
-.sec-head{margin-bottom:64px}
-.sec-head.center{text-align:center;max-width:580px;margin:0 auto 64px}
-
-/* ── SERVICES ── */
-.svc-bg{background:var(--sand)}
-.svc-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start}
-.svc-sticky{position:sticky;top:108px}
-.svc-photo{position:relative;overflow:hidden;aspect-ratio:3/4;margin-top:36px}
-.svc-photo img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
-.svc-photo:hover img{transform:scale(1.03)}
-.svc-photo-tag{position:absolute;bottom:20px;left:20px;background:var(--forest);color:var(--sand);font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:8px 16px}
-.acc-item{border-bottom:1px solid var(--border)}
-.acc-item:first-child{border-top:1px solid var(--border)}
-.acc-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:22px 0;background:none;border:none;cursor:pointer;text-align:left}
-.acc-btn-l{display:flex;align-items:center;gap:18px}
-.acc-ico{width:36px;height:36px;background:rgba(28,58,40,.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
-.acc-ico svg{width:15px;height:15px;fill:none;stroke:var(--sage);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
-.acc-item.open .acc-ico{background:var(--forest)}
-.acc-item.open .acc-ico svg{stroke:var(--sand)}
-.acc-label{font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:600;color:var(--forest)}
-.acc-plus{font-size:1.4rem;color:var(--gold);font-weight:300;transition:transform .3s;line-height:1}
-.acc-item.open .acc-plus{transform:rotate(45deg)}
-.acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
-.acc-item.open .acc-body{grid-template-rows:1fr}
-.acc-inner{overflow:hidden}
-.acc-content{padding:0 0 26px 54px;font-size:.82rem;font-weight:300;color:var(--muted);line-height:1.92}
-.acc-content ul{margin-top:12px;padding-left:18px}
-.acc-content li{margin-bottom:6px}
-
-/* ── DESTINATIONS ── */
-.dest-bg{background:var(--sand2)}
-.dest-list{display:flex;flex-direction:column;gap:90px}
-.dest-item{display:grid;grid-template-columns:1fr 1fr;gap:68px;align-items:center}
-.dest-item.rev{direction:rtl}.dest-item.rev>*{direction:ltr}
-.dest-photo{position:relative;overflow:hidden;aspect-ratio:4/5}
-.dest-photo img{width:100%;height:100%;object-fit:cover;transition:transform .7s}
-.dest-photo:hover img{transform:scale(1.04)}
-.dest-badge{position:absolute;top:20px;left:20px;background:var(--forest);color:var(--sand);font-size:.56rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:7px 14px;z-index:2}
-.dest-num{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:700;color:rgba(28,58,40,.07);line-height:1;margin-bottom:4px}
-.dest-title{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:600;color:var(--forest);margin:8px 0 14px;line-height:1.2}
-.dest-desc{font-size:.82rem;font-weight:300;color:var(--muted);line-height:1.92;margin-bottom:20px}
-.pills{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:26px}
-.pill{font-size:.6rem;font-weight:500;letter-spacing:.05em;color:var(--forest);border:1px solid rgba(28,58,40,.16);padding:5px 13px}
-.dest-cta{display:inline-flex;align-items:center;gap:10px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--forest);border-bottom:1px solid var(--gold);padding-bottom:3px;transition:gap .2s}
-.dest-cta:hover{gap:16px}
-.dest-cta svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
-/* ── EXCURSIONS ── */
-.exc-bg{background:var(--forest);position:relative;overflow:hidden}
-.exc-bg::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,.018) 59px,rgba(255,255,255,.018) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,.018) 59px,rgba(255,255,255,.018) 60px)}
-.exc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);position:relative;z-index:1;margin-top:8px}
-.exc-card{background:var(--forest);padding:34px 26px;transition:background .3s}
-.exc-card:hover{background:#254f34}
-.exc-em{font-size:1.9rem;display:block;margin-bottom:16px}
-.exc-name{font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:600;color:#fff;margin-bottom:9px;line-height:1.25}
-.exc-det{font-size:.76rem;font-weight:300;color:rgba(255,255,255,.42);line-height:1.82;margin-bottom:20px}
-.exc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid rgba(255,255,255,.07)}
-.exc-price{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--gold-lt)}
-.exc-tag{font-size:.56rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.26);border:1px solid rgba(255,255,255,.1);padding:4px 11px}
-
-/* ── POURQUOI ── */
-.why-bg{background:var(--sand)}
-.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border:1px solid var(--border)}
-.why-card{background:var(--sand);padding:48px 38px;transition:background .3s}
-.why-card:hover{background:var(--sand2)}
-.why-ico{width:44px;height:44px;margin-bottom:22px}
-.why-ico svg{width:100%;height:100%;fill:none;stroke:var(--gold);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
-.why-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--forest);margin-bottom:12px}
-.why-desc{font-size:.8rem;font-weight:300;color:var(--muted);line-height:1.92}
-
-/* ── CONTACT ── */
-.contact-bg{background:var(--sand2)}
-.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:80px;align-items:start}
-.contact-intro{font-size:.84rem;font-weight:300;color:var(--muted);line-height:1.92;margin-bottom:38px}
-.ci{display:flex;align-items:center;gap:16px;margin-bottom:18px}
-.ci-ico{width:38px;height:38px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ci-ico svg{width:15px;height:15px;fill:none;stroke:var(--sage);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.ci strong{display:block;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--forest);margin-bottom:2px}
-.ci span{font-size:.8rem;font-weight:300;color:var(--muted)}
-.social-row{display:flex;gap:9px;margin-top:34px}
-.soc-btn{width:38px;height:38px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .2s}
-.soc-btn:hover{background:var(--forest);border-color:var(--forest)}
-.soc-btn svg{width:14px;height:14px;fill:none;stroke:var(--sage);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
-.soc-btn:hover svg{stroke:var(--sand)}
-.form-box{background:var(--sand);padding:46px 42px;border:1px solid var(--border)}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.fg{margin-bottom:16px}
-.fg label{display:block;font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--forest);margin-bottom:7px}
-.fg input,.fg select,.fg textarea{width:100%;padding:12px 15px;border:1px solid rgba(28,58,40,.14);background:var(--sand2);font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:300;color:#1c2b22;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none;border-radius:0}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold);background:#fff}
-.fg textarea{resize:vertical;min-height:104px}
-.form-submit{width:100%;padding:16px;background:var(--forest);color:var(--sand);border:1px solid var(--forest);font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:4px}
-.form-submit:hover{background:transparent;color:var(--forest)}
-
-/* ── FOOTER ── */
-footer{background:#111f16;padding:54px 48px 34px}
-.footer-inner{max-width:1180px;margin:0 auto}
-.footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:30px;padding-bottom:38px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:26px}
-.footer-logo{display:flex;align-items:center;gap:12px}
-.footer-logo-text{font-family:'Cormorant Garamond',serif;font-size:1.08rem;font-weight:600;color:#fff;line-height:1.3}
-.footer-logo-text small{display:block;font-family:'Outfit',sans-serif;font-size:.46rem;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-top:4px}
-.footer-links{display:flex;gap:22px;flex-wrap:wrap;align-items:center}
-.footer-links a{font-size:.7rem;color:rgba(255,255,255,.3);transition:color .2s}
-.footer-links a:hover{color:var(--gold-lt)}
-.footer-soc{display:flex;gap:7px}
-.footer-soc a{width:34px;height:34px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;transition:all .2s}
-.footer-soc a:hover{background:var(--gold);border-color:var(--gold)}
-.footer-soc a svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.34);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
-.footer-soc a:hover svg{stroke:#fff}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.footer-copy{font-size:.62rem;color:rgba(255,255,255,.18)}
-
-/* ── WA ── */
-.wa-float{position:fixed;bottom:28px;right:28px;z-index:300;width:54px;height:54px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 28px rgba(37,211,102,.35);transition:transform .3s;animation:pop .6s 1.2s ease both}
-@keyframes pop{from{transform:scale(0) rotate(-180deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
-.wa-float:hover{transform:scale(1.1)}
-.wa-float svg{width:25px;height:25px;fill:#fff}
-
-/* ── REVEAL ── */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
-.reveal.visible{opacity:1;transform:none}
-
-/* ── MOBILE ── */
-@media(max-width:1024px){
-  .svc-layout{grid-template-columns:1fr;gap:44px}
-  .svc-sticky{position:static}
-  .svc-photo{aspect-ratio:16/9}
-  .dest-item,.dest-item.rev{grid-template-columns:1fr;direction:ltr;gap:28px}
-  .exc-grid{grid-template-columns:repeat(2,1fr)}
-  .why-grid{grid-template-columns:1fr 1fr}
-  .contact-grid{grid-template-columns:1fr;gap:44px}
-}
-@media(max-width:768px){
-  .nav-links,.nav-cta{display:none}
-  .nav-burger{display:flex}
-  .nav-wrap{padding:0 20px}
-  .wrap{padding:0 20px}
-  .sec{padding:68px 0}
-  .figures{padding:38px 20px}
-  .figures-grid{grid-template-columns:1fr 1fr;gap:24px}
-  .fig{border-right:none}
-  .why-grid{grid-template-columns:1fr}
-  footer{padding:38px 20px 28px}
-  .footer-top{flex-direction:column}
-  .frow{grid-template-columns:1fr}
-  .form-box{padding:28px 18px}
-  .keyhole-outer{width:220px;height:275px}
-  .hero-title{font-size:2.2rem}
-}
-@media(max-width:480px){
-  .exc-grid{grid-template-columns:1fr}
-  .keyhole-outer{width:180px;height:225px}
-}
-</style>
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:768px){
+      nav { padding: 0 20px; }
+      .nav-links { display:none; }
+      .hamburger { display: flex; }
+      nav.menu-open .nav-links { display:flex; flex-direction:column; position:fixed; top:80px; left:0; right:0; background:#fff; padding:24px 20px; gap:20px; border-bottom:1px solid var(--border); }
+      section { padding: 60px 20px; }
+      .dest-card, .dest-card.reverse { grid-template-columns: 1fr; direction:ltr; }
+      .contact-wrapper { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .villas-banner { padding: 30px; }
+      .footer-top { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="nav">
-  <div class="nav-wrap">
-    <a href="#" class="nav-logo">
-      <svg width="26" height="34" viewBox="0 0 44 56" fill="none">
-        <circle cx="22" cy="18" r="13" stroke="#b8975a" stroke-width="2.2"/>
-        <path d="M13 28 L9 52 L35 52 L31 28" fill="rgba(28,58,40,0)" stroke="#b8975a" stroke-width="1.8" stroke-linejoin="round"/>
-        <circle cx="22" cy="18" r="5" fill="none" stroke="rgba(184,151,90,0.5)" stroke-width="1.6"/>
-      </svg>
-      <div class="nav-logo-text">La Clé de Samui<small>— Votre meilleur ami à Koh Samui —</small></div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#destinations">Excursions</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a href="#contact" class="nav-cta">Nous contacter →</a>
-    <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <img src="data:image/jpeg;base64,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" alt="La Clé de Samui" style="height:50px;width:auto"/>
+    <div class="nav-logo-text">La Clé de<span>SAMUI</span></div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#services">Nos Services</a></li>
+    <li><a href="#destinations">Nos Destinations</a></li>
+    <li><a href="#contact" class="btn nav-cta">Nous Contacter</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-
-  <!-- Photo plein écran -->
+<!-- ─── HERO ─── -->
+<section class="hero" id="home">
   <div class="hero-bg">
-    <img src="https://images.unsplash.com/photo-1537956965359-7573183d1f57?w=1920&q=90" alt="Koh Samui"/>
+    <!-- Primary: Pexels sunset beach Thailand -->
+    <video autoplay muted loop playsinline preload="auto" poster="https://images.unsplash.com/photo-1537956965359-7573183d1f57?q=80&w=1400&auto=format&fit=crop">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-sunset-at-the-beach-1105-large.mp4" type="video/mp4"/>
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-water-1164-large.mp4" type="video/mp4"/>
+    </video>
   </div>
-  <div class="hero-veil"></div>
-
-  <!-- Contenu centré -->
-  <div class="hero-body">
-
-    <span class="hero-eyebrow">Conciergerie Privée · Koh Samui, Thaïlande</span>
-
-    <!-- SERRURE GÉANTE avec photo à l'intérieur -->
-    <div class="keyhole-outer">
-      <div class="keyhole-glow"></div>
-
-      <!-- Photo Koh Samui visible à travers la serrure -->
-      <div class="keyhole-inside">
-        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=90" alt="Koh Samui à travers la serrure"/>
-      </div>
-
-      <!-- Contour doré SVG par dessus -->
-      <svg class="keyhole-border" viewBox="0 0 320 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Cercle du haut -->
-        <circle cx="160" cy="110" r="100" stroke="#b8975a" stroke-width="2.5"/>
-        <!-- Corps serrure -->
-        <path d="M60 205 L15 392 Q13 402 30 402 L290 402 Q307 402 305 392 L260 205 Z" stroke="#b8975a" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-        <!-- Trou clé intérieur -->
-        <circle cx="160" cy="110" r="36" stroke="rgba(184,151,90,0.35)" stroke-width="1.5" fill="none"/>
-        <!-- Reflet lumière haut -->
-        <path d="M88 52 Q118 30 154 42" stroke="rgba(255,255,255,0.28)" stroke-width="1.8" stroke-linecap="round"/>
-        <!-- Petits ornements coins -->
-        <path d="M15 392 L8 400" stroke="rgba(184,151,90,0.5)" stroke-width="1.5" stroke-linecap="round"/>
-        <path d="M305 392 L312 400" stroke="rgba(184,151,90,0.5)" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </div>
-
-    <h1 class="hero-title">La Clé de Samui<em>Votre meilleur ami sur l'île</em></h1>
-
-    <div class="hero-rule">
-      <div class="hero-rule-line"></div>
-      <div class="hero-rule-dot"></div>
-      <div class="hero-rule-line"></div>
-    </div>
-
-    <p class="hero-sub">Villas privées, excursions, transferts, scooters, chef à domicile.<br>Toute l'île, clés en main, réservé en un seul message.</p>
-
-    <div class="hero-btns">
-      <a href="#contact" class="btn-prim">Planifier mon séjour →</a>
-      <a href="#services" class="btn-sec">Nos services</a>
-    </div>
-  </div>
-
-  <!-- Vague -->
-  <div class="hero-wave">
-    <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 35C240 70 480 0 720 35C960 70 1200 0 1440 35V70H0Z" fill="#f9f2e2"/>
+  <div class="keyhole-wrap">
+    <svg class="keyhole-svg" viewBox="0 0 100 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- circle top -->
+      <circle class="ring" cx="50" cy="44" r="26"
+        stroke="#C5A84A" stroke-width="1.2" fill="none"
+        stroke-linecap="round"/>
+      <!-- keyhole body -->
+      <path class="body"
+        d="M33 68 L22 148 Q22 153 27 153 L73 153 Q78 153 78 148 L67 68"
+        stroke="#C5A84A" stroke-width="1.2" fill="none"
+        stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
-
-  <div class="hero-scroll"><div class="hero-scroll-bar"></div><span>Découvrir</span></div>
-</section>
-
-<!-- CHIFFRES -->
-<div class="figures">
-  <div class="figures-grid">
-    <div class="fig"><div class="fig-val">7<span>j/7</span></div><div class="fig-lbl">Disponibilité</div></div>
-    <div class="fig"><div class="fig-val">+50</div><div class="fig-lbl">Partenaires locaux</div></div>
-    <div class="fig"><div class="fig-val">1<span>h</span></div><div class="fig-lbl">Délai de réponse</div></div>
-    <div class="fig"><div class="fig-val">100<span>%</span></div><div class="fig-lbl">Sur mesure</div></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Conciergerie de Luxe · Koh Samui, Thaïlande</div>
+    <h1 class="hero-title">La Clé de<strong>SAMUI</strong></h1>
+    <div class="hero-separator"></div>
+    <p class="hero-sub">Votre conciergerie française au cœur du paradis thaïlandais.</p>
+    <div class="hero-tagline">— Votre meilleur ami à Koh Samui —</div>
+    <a href="#contact" class="btn btn-light">Remplir le formulaire →</a>
   </div>
-</div>
-
-<!-- SERVICES -->
-<section class="svc-bg sec" id="services">
-  <div class="wrap">
-    <div class="svc-layout">
-      <div class="svc-sticky">
-        <div class="sec-head reveal">
-          <span class="eyebrow">Nos Services</span>
-          <h2 class="h2">Tout ce dont vous avez besoin,<br><em>en un seul endroit.</em></h2>
-          <p class="body-text">Basés à Koh Samui, francophones, disponibles 7j/7. On s'occupe de chaque détail de votre séjour.</p>
-        </div>
-        <div class="svc-photo reveal">
-          <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80" alt="Koh Samui" loading="lazy"/>
-          <div class="svc-photo-tag">Koh Samui · Thaïlande</div>
-        </div>
-      </div>
-      <div class="acc reveal">
-        <div class="acc-item open">
-          <button class="acc-btn" onclick="toggleAcc(this)">
-            <div class="acc-btn-l"><div class="acc-ico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="acc-label">Villas Privées</span></div>
-            <span class="acc-plus">+</span>
-          </button>
-          <div class="acc-body"><div class="acc-inner"><div class="acc-content">Sélection exclusive de villas avec piscine et vues mer. Chaque logement est inspecté par notre équipe.<ul><li>Logements vérifiés et certifiés sur place</li><li>Tarifs négociés, souvent inférieurs aux plateformes</li><li>Présents lors du check-in et du check-out</li><li>Accompagnement 7j/7 tout au long du séjour</li></ul></div></div></div>
-        </div>
-        <div class="acc-item">
-          <button class="acc-btn" onclick="toggleAcc(this)">
-            <div class="acc-btn-l"><div class="acc-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><span class="acc-label">Excursions & Activités</span></div>
-            <span class="acc-plus">+</span>
-          </button>
-          <div class="acc-body"><div class="acc-inner"><div class="acc-content">Ang Thong, Koh Tao, jungle 4x4, éléphants, Full Moon Party, cours de cuisine… En groupe ou en privatif.<ul><li>Transfert hôtel aller-retour inclus</li><li>Guides francophones disponibles sur demande</li><li>Tarifs négociés partenaires</li></ul></div></div></div>
-        </div>
-        <div class="acc-item">
-          <button class="acc-btn" onclick="toggleAcc(this)">
-            <div class="acc-btn-l"><div class="acc-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><span class="acc-label">Transferts Aéroport</span></div>
-            <span class="acc-plus">+</span>
-          </button>
-          <div class="acc-body"><div class="acc-inner"><div class="acc-content">Accueil nominatif à l'aéroport de Koh Samui (USM). Van privé climatisé, tarifs fixes, disponible 24h/24.<ul><li>Accueil personnalisé dans le hall des arrivées</li><li>Tarifs fixes, pas de mauvaise surprise</li><li>Offert pour les séjours de 15 nuits et plus</li></ul></div></div></div>
-        </div>
-        <div class="acc-item">
-          <button class="acc-btn" onclick="toggleAcc(this)">
-            <div class="acc-btn-l"><div class="acc-ico"><svg viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6H2L1 11l4 2 1 4h12l1-4 4-2-1-5H15z"/></svg></div><span class="acc-label">Location Scooters & Voitures</span></div>
-            <span class="acc-plus">+</span>
-          </button>
-          <div class="acc-body"><div class="acc-inner"><div class="acc-content">Flotte récente livrée directement à votre villa ou hôtel. Casques inclus. Zéro dépôt de passeport.<ul><li>Livraison villa ou hôtel sans frais supplémentaires</li><li>Honda & Yamaha récents, entretenus régulièrement</li><li>Tarifs dégressifs à la semaine</li></ul></div></div></div>
-        </div>
-        <div class="acc-item">
-          <button class="acc-btn" onclick="toggleAcc(this)">
-            <div class="acc-btn-l"><div class="acc-ico"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg></div><span class="acc-label">Chef Privé & Spa à Domicile</span></div>
-            <span class="acc-plus">+</span>
-          </button>
-          <div class="acc-body"><div class="acc-inner"><div class="acc-content">Chef à domicile dans votre villa — cuisine thaïe ou internationale. Masseurs et thérapeutes déplacés chez vous.<ul><li>Menus personnalisés, régimes alimentaires pris en compte</li><li>Massages thaï traditionnels et soins bien-être</li><li>Réservation 48h à l'avance recommandée</li></ul></div></div></div>
-        </div>
-        <div class="acc-item">
-          <button class="acc-btn" onclick="toggleAcc(this)">
-            <div class="acc-btn-l"><div class="acc-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div><span class="acc-label">Conciergerie 7j/7 en Français</span></div>
-            <span class="acc-plus">+</span>
-          </button>
-          <div class="acc-body"><div class="acc-inner"><div class="acc-content">Un seul numéro WhatsApp pour tout organiser. Réponse garantie en moins d'une heure.<ul><li>Service 100 % en français</li><li>Accompagnement personnalisé de A à Z</li><li>Carte SIM locale avec Internet incluse</li></ul></div></div></div>
-        </div>
-      </div>
-    </div>
+  <div class="hero-scroll" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+    <span>Découvrir</span>
+    <div class="scroll-arrow"></div>
   </div>
 </section>
 
-<!-- DESTINATIONS -->
-<section class="dest-bg sec" id="destinations">
-  <div class="wrap">
-    <div class="sec-head center reveal">
-      <span class="eyebrow">Nos Excursions Phares</span>
-      <h2 class="h2">Découvrez <em>l'île et ses trésors</em></h2>
-      <p class="body-text">Sélectionnées pour leur qualité et leur authenticité. Transferts hôtel inclus.</p>
+<!-- ─── SERVICES ─── -->
+<section id="services">
+  <div class="services-header">
+    <div class="section-eyebrow">Ce que nous faisons</div>
+    <h2 class="section-title">Nos Services</h2>
+    <div class="section-line"></div>
+    <p class="section-intro">De votre arrivée à votre départ, La Clé de Samui prend soin de chaque détail pour que votre séjour soit absolument parfait.</p>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-item open">
+      <div class="service-trigger" onclick="toggleService(this)">
+        <div class="service-trigger-left">
+          <div class="service-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4,8 11,1"/></svg></div>
+          <span>✔ Tranquillité d'esprit</span>
+        </div>
+        <div class="service-plus">+</div>
+      </div>
+      <div class="service-body">
+        Voyagez l'esprit libre, on s'occupe de tout.
+        <ul>
+          <li><strong>Sécurité :</strong> chaque logement est vérifié et certifié par notre équipe sur place.</li>
+          <li><strong>Économie :</strong> profitez de tarifs négociés, souvent bien inférieurs aux plateformes.</li>
+          <li><strong>Accompagnement :</strong> de la préparation à votre retour, notre conciergerie reste disponible 7 jours / 7.</li>
+        </ul>
+      </div>
     </div>
-    <div class="dest-list">
-      <div class="dest-item reveal">
-        <div class="dest-photo"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80" alt="Ang Thong" loading="lazy"/><div class="dest-badge">Bestseller</div></div>
-        <div><div class="dest-num">01</div><span class="eyebrow">Excursion mer · Journée complète</span><h3 class="dest-title">Ang Thong Marine Park</h3><p class="dest-desc">À 30 km au nord de Koh Samui, le parc national marin d'Ang Thong regroupe 42 îles d'une beauté préservée : lagons émeraude, grottes secrètes, plages désertes et panoramas à couper le souffle.</p><div class="pills"><span class="pill">Journée complète</span><span class="pill">Snorkeling inclus</span><span class="pill">Kayak inclus</span><span class="pill">Déjeuner à bord</span></div><a href="#contact" class="dest-cta">Réserver cette excursion <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+
+    <div class="service-item">
+      <div class="service-trigger" onclick="toggleService(this)">
+        <div class="service-trigger-left">
+          <div class="service-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4,8 11,1"/></svg></div>
+          <span>✔ Conciergerie personnalisée</span>
+        </div>
+        <div class="service-plus">+</div>
       </div>
-      <div class="dest-item rev reveal">
-        <div class="dest-photo"><img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=900&q=80" alt="Koh Tao" loading="lazy"/><div class="dest-badge">Plongée</div></div>
-        <div><div class="dest-num">02</div><span class="eyebrow">Excursion mer · Journée complète</span><h3 class="dest-title">Koh Tao & Koh Nang Yuan</h3><p class="dest-desc">Koh Tao est la capitale mondiale de la plongée accessible. Ses eaux chaudes abritent une vie marine extraordinaire. Koh Nang Yuan, avec ses trois îlots reliés par une bande de sable blanc, est l'un des plus photographiés de Thaïlande.</p><div class="pills"><span class="pill">Speedboat privé</span><span class="pill">Snorkeling</span><span class="pill">Plongée en option</span><span class="pill">Déjeuner inclus</span></div><a href="#contact" class="dest-cta">Réserver cette excursion <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
-      </div>
-      <div class="dest-item reveal">
-        <div class="dest-photo"><img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=900&q=80" alt="Îles du Sud" loading="lazy"/><div class="dest-badge">Famille</div></div>
-        <div><div class="dest-num">03</div><span class="eyebrow">Excursion mer · Demi-journée</span><h3 class="dest-title">Les Îles du Sud & l'Île aux Cochons</h3><p class="dest-desc">Koh Tan, Koh Mad Sum — la fameuse île aux cochons — et Koh Rap avec ses eaux turquoise. Un archipel préservé à quelques kilomètres, parfait pour une matinée de snorkeling en famille.</p><div class="pills"><span class="pill">Demi-journée</span><span class="pill">3 îles</span><span class="pill">Idéal famille</span><span class="pill">Soft drinks inclus</span></div><a href="#contact" class="dest-cta">Réserver cette excursion <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+      <div class="service-body">
+        Service de conciergerie en français. Accueil chaleureux, présents lors du check-in et du check-out. Une équipe locale disponible pour répondre à toutes vos demandes, qu'il s'agisse d'une réservation de table, d'un massage ou d'une excursion privée.
       </div>
     </div>
+
+    <div class="service-item">
+      <div class="service-trigger" onclick="toggleService(this)">
+        <div class="service-trigger-left">
+          <div class="service-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4,8 11,1"/></svg></div>
+          <span>✔ Transfert aéroport</span>
+        </div>
+        <div class="service-plus">+</div>
+      </div>
+      <div class="service-body">
+        Pour les séjours de plus de 10 jours, le transfert aéroport ↔ logement est offert 🚐. Chauffeur privé, climatisation, ponctualité garantie — commencez votre séjour en douceur dès votre atterrissage à Samui.
+      </div>
+    </div>
+
+    <div class="service-item">
+      <div class="service-trigger" onclick="toggleService(this)">
+        <div class="service-trigger-left">
+          <div class="service-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4,8 11,1"/></svg></div>
+          <span>✔ Carte SIM locale</span>
+        </div>
+        <div class="service-plus">+</div>
+      </div>
+      <div class="service-body">
+        Carte SIM locale avec Internet incluse pour rester connecté pendant tout votre séjour. Indispensable pour profiter pleinement de l'île sans vous soucier de la connectivité.
+      </div>
+    </div>
+
+    <div class="service-item">
+      <div class="service-trigger" onclick="toggleService(this)">
+        <div class="service-trigger-left">
+          <div class="service-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4,8 11,1"/></svg></div>
+          <span>✔ Activités & excursions</span>
+        </div>
+        <div class="service-plus">+</div>
+      </div>
+      <div class="service-body">
+        10 % de réduction sur toutes les activités réservées avec notre équipe. Plongée, snorkeling, tours en bateau privé, temples, cuisine thaïe, spa… nous sélectionnons les meilleures expériences de l'île pour vous.
+      </div>
+    </div>
+
+    <div class="service-item">
+      <div class="service-trigger" onclick="toggleService(this)">
+        <div class="service-trigger-left">
+          <div class="service-check"><svg viewBox="0 0 12 10"><polyline points="1,5 4,8 11,1"/></svg></div>
+          <span>✔ Chef privé & services à la villa</span>
+        </div>
+        <div class="service-plus">+</div>
+      </div>
+      <div class="service-body">
+        Profitez d'un chef thaïlandais privé, d'un service de ménage quotidien, ou de soins spa directement dans votre villa. Pour les séjours haut de gamme, nous organisons chaque détail sur mesure selon vos désirs.
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- EXCURSIONS GRILLE -->
-<section class="exc-bg sec">
-  <div class="wrap">
-    <div class="sec-head center reveal"><span class="eyebrow lt">Toutes nos activités</span><h2 class="h2 lt">Encore plus à <em>explorer</em></h2></div>
-    <div class="exc-grid">
-      <div class="exc-card"><span class="exc-em">🌴</span><div class="exc-name">Jungle Safari 4x4</div><div class="exc-det">Cascades, temples, points de vue panoramiques. Guide en français disponible.</div><div class="exc-foot"><div class="exc-price">dès 68 €</div><div class="exc-tag">Aventure</div></div></div>
-      <div class="exc-card"><span class="exc-em">🐘</span><div class="exc-name">Sanctuaire des Éléphants</div><div class="exc-det">Nourrissage, bain, soins. Approche 100 % éthique et responsable.</div><div class="exc-foot"><div class="exc-price">dès 85 €</div><div class="exc-tag">Éthique</div></div></div>
-      <div class="exc-card"><span class="exc-em">🌕</span><div class="exc-name">Full Moon Party</div><div class="exc-det">Transport aller-retour Koh Samui → Koh Phangan. Pick-up hôtel inclus.</div><div class="exc-foot"><div class="exc-price">dès 39 €</div><div class="exc-tag">Nuit</div></div></div>
-      <div class="exc-card"><span class="exc-em">⛵</span><div class="exc-name">Charter Bateau Privé</div><div class="exc-det">Speedboat ou catamaran à la journée. Itinéraire sur mesure, repas à bord.</div><div class="exc-foot"><div class="exc-price">Sur devis</div><div class="exc-tag">Premium</div></div></div>
-      <div class="exc-card"><span class="exc-em">🍜</span><div class="exc-name">Cours de Cuisine Thaï</div><div class="exc-det">Visite du marché, cours avec chef local, dégustation. En français.</div><div class="exc-foot"><div class="exc-price">dès 66 €</div><div class="exc-tag">Culture</div></div></div>
-      <div class="exc-card"><span class="exc-em">🥊</span><div class="exc-name">Soirée Muay Thai</div><div class="exc-det">Combats professionnels dans les meilleurs stadiums de l'île.</div><div class="exc-foot"><div class="exc-price">Sur devis</div><div class="exc-tag">Sport</div></div></div>
-      <div class="exc-card"><span class="exc-em">🐬</span><div class="exc-name">Dauphins Roses</div><div class="exc-det">Speedboat vers Khanom pour observer les dauphins roses dans leur habitat.</div><div class="exc-foot"><div class="exc-price">dès 82 €</div><div class="exc-tag">Nature</div></div></div>
-      <div class="exc-card"><span class="exc-em">🤿</span><div class="exc-name">Plongée Koh Tao</div><div class="exc-det">2 plongées avec moniteur français certifié. Le spot n°1 en Thaïlande.</div><div class="exc-foot"><div class="exc-price">Sur devis</div><div class="exc-tag">Plongée</div></div></div>
+<!-- ─── DESTINATIONS ─── -->
+<section id="destinations">
+  <div class="dest-header">
+    <div class="section-eyebrow">Où séjourner</div>
+    <h2 class="section-title">Nos Destinations</h2>
+    <div class="section-line"></div>
+    <p class="section-intro">Découvrez les plus beaux endroits de Koh Samui et des îles voisines, sélectionnés avec soin par notre équipe.</p>
+  </div>
+
+  <div class="dest-cards">
+
+    <!-- Krabi -->
+    <div class="dest-card">
+      <div class="dest-card-img">
+        <img src="https://images.unsplash.com/photo-1504214208698-ea1916a2195a?q=80&w=1200&auto=format&fit=crop" alt="Krabi"/>
+        <div class="dest-tag">Sud Thaïlande</div>
+      </div>
+      <div class="dest-card-content">
+        <div class="dest-card-subtitle">Falaises & lagons</div>
+        <h3 class="dest-card-title">Krabi</h3>
+        <p class="dest-card-desc">Krabi fascine avec ses falaises calcaires vertigineuses plongeant dans une mer émeraude. Entre Railay Beach — accessible uniquement en bateau — et les îles Phi Phi toutes proches, c'est une destination de rêve pour les amoureux de nature sauvage et d'eaux cristallines. Notre équipe vous propose les meilleures villas et maisons de vacances de la région.</p>
+        <a href="#contact" class="dest-link">Découvrir nos logements →</a>
+      </div>
     </div>
+
+    <!-- Khao Lak -->
+    <div class="dest-card reverse">
+      <div class="dest-card-img">
+        <img src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?q=80&w=1200&auto=format&fit=crop" alt="Khao Lak"/>
+        <div class="dest-tag">Côte d'Andaman</div>
+      </div>
+      <div class="dest-card-content">
+        <div class="dest-card-subtitle">Nature & sérénité</div>
+        <h3 class="dest-card-title">Khao Lak</h3>
+        <p class="dest-card-desc">Khao Lak est le secret le mieux gardé de la côte d'Andaman. Ses longues plages sauvages bordées de végétation tropicale, ses parcs nationaux préservés et ses hôtels boutique discrets en font la destination parfaite pour se ressourcer loin des foules. Idéale pour les familles et les couples en quête d'authenticité et de calme absolu.</p>
+        <a href="#contact" class="dest-link">Découvrir nos logements →</a>
+      </div>
+    </div>
+
+    <!-- Phuket -->
+    <div class="dest-card">
+      <div class="dest-card-img">
+        <img src="https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?q=80&w=1200&auto=format&fit=crop" alt="Phuket"/>
+        <div class="dest-tag">Grande île</div>
+      </div>
+      <div class="dest-card-content">
+        <div class="dest-card-subtitle">Luxe & animation</div>
+        <h3 class="dest-card-title">Phuket</h3>
+        <p class="dest-card-desc">La plus grande île de Thaïlande allie plages de renom, villas de prestige et gastronomie internationale. Patong pour l'ambiance, Surin et Bang Tao pour le luxe discret, la vieille ville sino-portugaise pour la culture — Phuket offre mille visages. Notre réseau local vous garantit des logements d'exception aux meilleurs tarifs.</p>
+        <a href="#contact" class="dest-link">Découvrir nos logements →</a>
+      </div>
+    </div>
+
+    <!-- Koh Phangan -->
+    <div class="dest-card reverse">
+      <div class="dest-card-img">
+        <img src="https://images.unsplash.com/photo-1548901683-6bbefed27594?q=80&w=1200&auto=format&fit=crop" alt="Koh Phangan"/>
+        <div class="dest-tag">Île du Golfe</div>
+      </div>
+      <div class="dest-card-content">
+        <div class="dest-card-subtitle">Bohème & spiritualité</div>
+        <h3 class="dest-card-title">Koh Phangan</h3>
+        <p class="dest-card-desc">Au-delà de la célèbre Full Moon Party, Koh Phangan révèle une âme profonde : retraites de yoga sur les hauteurs, plages secrètes quasi désertes, restaurants bios et hammacs sous les cocotiers. Une île qui sait se montrer festive la nuit et paradisiaque le jour. Nous sélectionnons les plus beaux logements loin de l'agitation pour un séjour idyllique.</p>
+        <a href="#contact" class="dest-link">Découvrir nos logements →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Villas banner -->
+  <div class="villas-banner">
+    <div>
+      <h3>Découvrez nos Villas de Luxe</h3>
+      <p>Services VIP, transferts inclus, chef privé et expériences entièrement sur mesure à Koh Samui.</p>
+    </div>
+    <a href="#contact" class="btn btn-outline">Voir nos Villas →</a>
   </div>
 </section>
 
-<!-- POURQUOI -->
-<section class="why-bg sec">
-  <div class="wrap">
-    <div class="sec-head center reveal"><span class="eyebrow">Pourquoi nous choisir</span><h2 class="h2">Votre séjour,<br><em>notre priorité.</em></h2></div>
-    <div class="why-grid reveal">
-      <div class="why-card"><div class="why-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="why-title">Logements vérifiés</div><div class="why-desc">Chaque villa est inspectée en personne par notre équipe. Vous recevez exactement ce qui est décrit — sans mauvaise surprise, sans photos mensongères.</div></div>
-      <div class="why-card"><div class="why-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><div class="why-title">Service en français</div><div class="why-desc">Toute la communication se fait en français du premier message au check-out. Pas d'intermédiaire, pas de barrière de langue : on est votre ami sur place.</div></div>
-      <div class="why-card"><div class="why-ico"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="why-title">Tarifs négociés</div><div class="why-desc">Grâce à nos partenariats locaux, vous bénéficiez de tarifs souvent inférieurs aux plateformes et aux agences, sans commission cachée.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="contact-bg sec" id="contact">
-  <div class="wrap">
-    <div class="contact-grid">
-      <div class="reveal">
-        <span class="eyebrow">Contactez-Nous</span>
-        <h2 class="h2" style="margin-bottom:18px">Planifions<br><em>votre séjour</em></h2>
-        <p class="contact-intro">Remplissez le formulaire avec vos informations. Notre équipe vous recontacte rapidement avec les meilleures options.</p>
-        <div class="ci"><div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div><div><strong>WhatsApp</strong><span>+66 · · · · · · · · ·</span></div></div>
-        <div class="ci"><div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><strong>Email</strong><span>contact@lacledesamui.com</span></div></div>
-        <div class="ci"><div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><strong>Localisation</strong><span>Koh Samui, Surat Thani, Thaïlande</span></div></div>
-        <div class="social-row">
-          <a href="#" class="soc-btn"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
-          <a href="#" class="soc-btn"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.77.25V9.01a6.34 6.34 0 104.84 6.17V8.69a8.26 8.26 0 004.84 1.56V6.78a4.85 4.85 0 01-1.07-.09z"/></svg></a>
-          <a href="#" class="soc-btn"><svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 2.5.8 4.2 1.5 5.5-.3.5-1.2 1-2.5 1.2-.3.1-.5.3-.5.6 0 .8 1.5 1.4 2 1.5.2.6.8 2.2 3 2.2.5 0 1-.1 1.5-.2.5.3 1.2.5 2 .5s1.5-.2 2-.5c.5.1 1 .2 1.5.2 2.2 0 2.8-1.6 3-2.2.5-.1 2-.7 2-1.5 0-.3-.2-.5-.5-.6-1.3-.2-2.2-.7-2.5-1.2C18.2 13.2 19 11.5 19 9c0-4-3-7-7-7z"/></svg></a>
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <div class="section-eyebrow">Nous écrire</div>
+      <h2>Contactez-Nous</h2>
+      <p>Afin de vous proposer des logements correspondant à votre demande, merci de remplir le formulaire ci-contre avec vos informations. Notre équipe vous recontactera rapidement avec les meilleures options disponibles.</p>
+      <div class="contact-detail">
+        <div class="c-item">
+          <div class="c-icon">📞</div>
+          <div class="c-text"><strong>Téléphone / WhatsApp</strong>+66 XX XXX XXXX</div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon">📍</div>
+          <div class="c-text"><strong>Adresse</strong>Koh Samui, Surat Thani, Thaïlande</div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon">✉️</div>
+          <div class="c-text"><strong>Email</strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="35565a5b415456417559545659505150465458405c1b565a58">[email&#160;protected]</a></div>
         </div>
       </div>
-      <div class="form-box reveal">
-        <form onsubmit="return false">
-          <div class="frow"><div class="fg"><label>Nom et prénom *</label><input type="text" placeholder="Jean Dupont" required/></div><div class="fg"><label>WhatsApp *</label><input type="tel" placeholder="+33 6 00 00 00 00" required/></div></div>
-          <div class="frow"><div class="fg"><label>Date d'arrivée *</label><input type="date" required/></div><div class="fg"><label>Date de départ *</label><input type="date" required/></div></div>
-          <div class="frow"><div class="fg"><label>Nombre de personnes *</label><select required><option value="">Sélectionnez</option><option>1 personne</option><option>2 personnes</option><option>3 personnes</option><option>4 personnes</option><option>5 personnes</option><option>6 personnes</option><option>7+ personnes</option></select></div><div class="fg"><label>Nombre de chambres *</label><select required><option value="">Sélectionnez</option><option>1 chambre</option><option>2 chambres</option><option>3 chambres</option><option>4 chambres</option><option>5+ chambres</option></select></div></div>
-          <div class="fg"><label>Budget logement (par nuit)</label><select><option value="">Sélectionnez un budget</option><option>Moins de 100 €</option><option>100 – 200 €</option><option>200 – 400 €</option><option>400 – 800 €</option><option>Plus de 800 €</option></select></div>
-          <div class="fg"><label>Services souhaités</label><select><option value="">Sélectionnez</option><option>Villa uniquement</option><option>Excursions uniquement</option><option>Villa + Excursions</option><option>Pack complet</option><option>Autre</option></select></div>
-          <div class="fg"><label>Message</label><textarea placeholder="Décrivez vos envies : type de villa, activités souhaitées, occasions spéciales…"></textarea></div>
-          <button type="submit" class="form-submit">Envoyer ma demande →</button>
-        </form>
-      </div>
     </div>
+
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nom et prénom *</label>
+          <input type="text" placeholder="Jean Dupont" required/>
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" placeholder="jean@example.com" required/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date d'arrivée *</label>
+          <input type="date" required/>
+        </div>
+        <div class="form-group">
+          <label>Date de départ *</label>
+          <input type="date" required/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Destination souhaitée</label>
+          <select>
+            <option value="">Sélectionnez</option>
+            <option>Krabi</option>
+            <option>Khao Lak</option>
+            <option>Phuket</option>
+            <option>Koh Phangan</option>
+            <option>Koh Samui</option>
+            <option>Villa de luxe sur mesure</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Budget / nuit</label>
+          <select>
+            <option value="">Sélectionnez</option>
+            <option>< 100 €</option>
+            <option>100 – 200 €</option>
+            <option>200 – 400 €</option>
+            <option>400 – 800 €</option>
+            <option>> 800 € (Villa)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre de personnes *</label>
+          <select required>
+            <option value="">Sélectionnez</option>
+            <option>1 personne</option>
+            <option>2 personnes</option>
+            <option>3 personnes</option>
+            <option>4 personnes</option>
+            <option>5 personnes</option>
+            <option>6 personnes</option>
+            <option>7+ personnes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Nombre de chambres *</label>
+          <select required>
+            <option value="">Sélectionnez</option>
+            <option>1 chambre</option>
+            <option>2 chambres</option>
+            <option>3 chambres</option>
+            <option>4 chambres</option>
+            <option>5+ chambres</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Message / Informations complémentaires</label>
+        <textarea placeholder="Précisez vos souhaits : piscine privée, vue mer, services souhaités…"></textarea>
+      </div>
+      <p class="form-note">* Champs obligatoires. Nous répondons sous 24h.</p>
+      <button type="submit" class="btn btn-dark form-submit">Envoyer ma demande →</button>
+    </form>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ─── FOOTER ─── -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-logo">
-        <svg width="26" height="34" viewBox="0 0 44 56" fill="none"><circle cx="22" cy="18" r="13" stroke="#b8975a" stroke-width="2"/><path d="M13 28 L9 52 L35 52 L31 28" fill="rgba(0,0,0,0)" stroke="#b8975a" stroke-width="1.6" stroke-linejoin="round"/><circle cx="22" cy="18" r="5" fill="none" stroke="rgba(184,151,90,0.45)" stroke-width="1.4"/></svg>
-        <div class="footer-logo-text">La Clé de Samui<small>— Votre meilleur ami à Koh Samui —</small></div>
-      </div>
-      <div class="footer-links"><a href="#services">Services</a><a href="#destinations">Excursions</a><a href="#contact">Contact</a><a href="#">Mentions légales</a><a href="#">CGV</a></div>
-      <div class="footer-soc">
-        <a href="#"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
-        <a href="#"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.77.25V9.01a6.34 6.34 0 104.84 6.17V8.69a8.26 8.26 0 004.84 1.56V6.78a4.85 4.85 0 01-1.07-.09z"/></svg></a>
-        <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 2.5.8 4.2 1.5 5.5-.3.5-1.2 1-2.5 1.2-.3.1-.5.3-.5.6 0 .8 1.5 1.4 2 1.5.2.6.8 2.2 3 2.2.5 0 1-.1 1.5-.2.5.3 1.2.5 2 .5s1.5-.2 2-.5c.5.1 1 .2 1.5.2 2.2 0 2.8-1.6 3-2.2.5-.1 2-.7 2-1.5 0-.3-.2-.5-.5-.6-1.3-.2-2.2-.7-2.5-1.2C18.2 13.2 19 11.5 19 9c0-4-3-7-7-7z"/></svg></a>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="text-decoration:none">
+        <img src="data:image/jpeg;base64,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" alt="La Clé de Samui" style="height:44px;width:auto;filter:brightness(0) invert(1)"/>
+        <div class="nav-logo-text" style="color:#fff">La Clé de<span>SAMUI</span></div>
+      </a>
+      <p class="footer-tagline">— Votre meilleur ami à Koh Samui —</p>
+      <div class="footer-social" style="margin-top:20px">
+        <a href="#" title="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="#" title="TikTok">
+          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.2 8.2 0 004.79 1.53V6.78a4.85 4.85 0 01-1.02-.09z"/></svg>
+        </a>
+        <a href="#" title="WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span class="footer-copy">© 2026 La Clé de Samui. Tous droits réservés.</span>
-      <span class="footer-copy">Conciergerie Privée · Koh Samui, Thaïlande</span>
+    <div class="footer-links">
+      <h4>Navigation</h4>
+      <a href="#services">Nos Services</a>
+      <a href="#destinations">Nos Destinations</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-links">
+      <h4>Destinations</h4>
+      <a href="#contact">Krabi</a>
+      <a href="#contact">Khao Lak</a>
+      <a href="#contact">Phuket</a>
+      <a href="#contact">Koh Phangan</a>
+      <a href="#contact">Villas de Luxe</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 La Clé de Samui. Tous droits réservés.</p>
+    <div class="footer-legal">
+      <a href="#">Mentions légales</a>
+      <a href="#">Politique de confidentialité</a>
+      <a href="#">Conditions générales</a>
     </div>
   </div>
 </footer>
 
-<a href="https://wa.me/66000000000" class="wa-float">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.06L2 22l5.12-1.34C8.58 21.53 10.26 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.66 0-3.21-.43-4.56-1.19l-.32-.19-3.04.8.81-2.97-.21-.33C3.63 14.89 3 13.52 3 12 3 7.03 7.03 3 12 3s9 4.03 9 9-4.03 9-9 9z"/></svg>
-</a>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // NAV scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  });
 
-<script>
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60), {passive:true});
-function toggleAcc(btn) {
-  const item = btn.closest('.acc-item');
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.acc-item.open').forEach(i => i.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
-}
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, {threshold:.1});
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-</script>
-</body>
-</html>
+  // Hamburger
+  function toggleMenu() {
+    document.getElementById('navbar').classList.toggle('menu-open');
+  }
+
+  // Service accordion
+  function toggleService(trigger) {
+    const item = trigger.parentElement;
+    item.classList.toggle('open');
+  }
+
+  // Form submit
+  function handleSubmi
