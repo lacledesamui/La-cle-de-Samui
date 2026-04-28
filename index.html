@@ -1009,16 +1009,9 @@
     .servF-card-wrap {
       aspect-ratio: auto;
     }
-    .servF-card {
-      transform-style: flat;
-      transform: none;
-    }
-    .servF-face-back {
-      position: relative;
-      transform: none;
-      margin-top: 12px;
-    }
-    .servF-card-wrap:hover .servF-card { transform: none; }
+    
+    
+    
   }
 
   /* CTA final */
@@ -3419,10 +3412,7 @@
   /* === SERVICES : Cards Flip avec tap mobile (FIX) === */
   /* Sur tactile : on désactive le hover et on utilise la classe .flipped via JS */
   @media (hover: none) and (pointer: coarse) {
-    .servF-card-wrap:hover .servF-card,
-    .servF-card-wrap:focus-within .servF-card {
-      transform: none; /* annule le hover */
-    }
+    
     .servF-card-wrap.flipped .servF-card {
       transform: rotateY(180deg);
     }
@@ -3444,6 +3434,21 @@
     .servF-card-wrap {
       aspect-ratio: 5 / 6 !important;
     }
+  }
+
+
+  /* Ajustement face arrière sans numéro */
+  .servF-face-back {
+    padding-top: 40px;
+  }
+  .servF-face-back-title {
+    margin-top: 0;
+  }
+
+
+  /* Ajustement face avant sans numéro */
+  .servF-face-front-title {
+    margin-top: 0;
   }
 
 </style>
@@ -3849,13 +3854,12 @@
         <div class="servF-card">
           <div class="servF-face servF-face-front">
             <svg class="servF-face-front-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22 L24 8 L42 22"/><path d="M10 22 V40 H38 V22"/><path d="M20 40 V30 H28 V40"/></svg>
-            <div class="servF-face-front-num">01</div>
             <h3 class="servF-face-front-title">Hébergement</h3>
             <p class="servF-face-front-tag">Villas premium et longs séjours, choisis avec exigence et accueillis avec soin.</p>
             <div class="servF-flip-hint">Voir les détails</div>
           </div>
           <div class="servF-face servF-face-back">
-            <div class="servF-face-back-num">01 · Hébergement</div>
+            
             <h3 class="servF-face-back-title">Ce que nous faisons</h3>
             <ul class="servF-face-back-list"><li>Villas premium pour les vacances</li>
 <li>Locations long séjour & appartements</li>
@@ -3869,13 +3873,12 @@
         <div class="servF-card">
           <div class="servF-face servF-face-front">
             <svg class="servF-face-front-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="34" r="6"/><circle cx="36" cy="34" r="6"/><path d="M18 34 L26 22 L32 34"/><path d="M22 22 L30 22"/><path d="M26 22 V14 L34 14"/></svg>
-            <div class="servF-face-front-num">02</div>
             <h3 class="servF-face-front-title">Mobilité</h3>
             <p class="servF-face-front-tag">Deux roues ou quatre, livrés à votre adresse, prêts à rouler.</p>
             <div class="servF-flip-hint">Voir les détails</div>
           </div>
           <div class="servF-face servF-face-back">
-            <div class="servF-face-back-num">02 · Mobilité</div>
+            
             <h3 class="servF-face-back-title">Ce que nous faisons</h3>
             <ul class="servF-face-back-list"><li>Scooters & motos (livraison à votre adresse)</li>
 <li>Location de voitures</li>
@@ -3888,13 +3891,12 @@
         <div class="servF-card">
           <div class="servF-face servF-face-front">
             <svg class="servF-face-front-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 28 L40 28"/><path d="M14 28 L20 14 L32 14 L38 28"/><circle cx="16" cy="34" r="2.5"/><circle cx="32" cy="34" r="2.5"/><path d="M22 14 L26 8 L30 14"/></svg>
-            <div class="servF-face-front-num">03</div>
             <h3 class="servF-face-front-title">Transferts</h3>
             <p class="servF-face-front-tag">De l'aéroport aux îles voisines, en chauffeur privé.</p>
             <div class="servF-flip-hint">Voir les détails</div>
           </div>
           <div class="servF-face servF-face-back">
-            <div class="servF-face-back-num">03 · Transferts</div>
+            
             <h3 class="servF-face-back-title">Ce que nous faisons</h3>
             <ul class="servF-face-back-list"><li>Aéroport Samui ↔ logement</li>
 <li>Chauffeur privé à la journée ou demi-journée</li>
@@ -3907,13 +3909,12 @@
         <div class="servF-card">
           <div class="servF-face servF-face-front">
             <svg class="servF-face-front-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 8 V22 A6 6 0 0 0 26 22 V8"/><path d="M20 22 V40"/><path d="M32 8 C32 8 36 10 36 18 C36 22 34 24 32 24 V40"/></svg>
-            <div class="servF-face-front-num">04</div>
             <h3 class="servF-face-front-title">Restauration & sorties</h3>
             <p class="servF-face-front-tag">Tables introuvables, chefs privés, beach clubs et sunsets confidentiels.</p>
             <div class="servF-flip-hint">Voir les détails</div>
           </div>
           <div class="servF-face servF-face-back">
-            <div class="servF-face-back-num">04 · Restauration & sorties</div>
+            
             <h3 class="servF-face-back-title">Ce que nous faisons</h3>
             <ul class="servF-face-back-list"><li>Réservations restaurants (street food au gastronomique)</li>
 <li>Chef privé à la villa & traiteur à domicile</li>
@@ -3927,13 +3928,12 @@
         <div class="servF-card">
           <div class="servF-face servF-face-front">
             <svg class="servF-face-front-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 32 L40 32"/><path d="M10 32 L14 22 L34 22 L38 32"/><path d="M16 22 L24 8 L32 22"/><path d="M6 38 C10 36 14 36 18 38 C22 40 26 36 30 38 C34 40 38 36 42 38"/></svg>
-            <div class="servF-face-front-num">05</div>
             <h3 class="servF-face-front-title">Expériences & excursions</h3>
             <p class="servF-face-front-tag">L'île, ses voisines et ses fonds marins — sur-mesure et avec les bonnes personnes.</p>
             <div class="servF-flip-hint">Voir les détails</div>
           </div>
           <div class="servF-face servF-face-back">
-            <div class="servF-face-back-num">05 · Expériences & excursions</div>
+            
             <h3 class="servF-face-back-title">Ce que nous faisons</h3>
             <ul class="servF-face-back-list"><li>Bateaux privés & sunset cruise (Ang Thong, Koh Tao, Koh Phangan)</li>
 <li>Plongée, snorkeling, ski nautique, paddle, jet-ski</li>
@@ -3947,13 +3947,12 @@
         <div class="servF-card">
           <div class="servF-face servF-face-front">
             <svg class="servF-face-front-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 24 L24 12 L40 24"/><path d="M11 24 V38 H37 V24"/><circle cx="18" cy="32" r="2"/><path d="M26 38 V30 H32 V38"/></svg>
-            <div class="servF-face-front-num">06</div>
             <h3 class="servF-face-front-title">Vie de villa</h3>
             <p class="servF-face-front-tag">Le quotidien à votre porte — courses, ménage, garde d'enfants ou d'animaux.</p>
             <div class="servF-flip-hint">Voir les détails</div>
           </div>
           <div class="servF-face servF-face-back">
-            <div class="servF-face-back-num">06 · Vie de villa</div>
+            
             <h3 class="servF-face-back-title">Ce que nous faisons</h3>
             <ul class="servF-face-back-list"><li>Livraison de courses (épicerie, vins, produits importés)</li>
 <li>Ménage & entretien de villa pendant le séjour</li>
@@ -3967,13 +3966,12 @@
         <div class="servF-card">
           <div class="servF-face servF-face-front">
             <svg class="servF-face-front-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6 L26 14 L34 14 L28 19 L30 27 L24 22 L18 27 L20 19 L14 14 L22 14 Z"/><path d="M14 32 L34 32"/><path d="M16 32 L20 42 L28 42 L32 32"/></svg>
-            <div class="servF-face-front-num">07</div>
             <h3 class="servF-face-front-title">Événements privés</h3>
             <p class="servF-face-front-tag">Des moments qu'on retient — mariages, anniversaires, séminaires, EVG.</p>
             <div class="servF-flip-hint">Voir les détails</div>
           </div>
           <div class="servF-face servF-face-back">
-            <div class="servF-face-back-num">07 · Événements privés</div>
+            
             <h3 class="servF-face-back-title">Ce que nous faisons</h3>
             <ul class="servF-face-back-list"><li>Mariages sur la plage & renouvellement de vœux</li>
 <li>Anniversaires, demandes en mariage, dîners privés</li>
