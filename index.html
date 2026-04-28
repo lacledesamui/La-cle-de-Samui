@@ -3150,38 +3150,16 @@
   /* === SERVICES mobile (Cards Flip 3D) === */
   @media (hover: none) and (pointer: coarse) {
     /* Sur tactile : flip au tap, pas au hover */
-    .services-card.flipped .services-card-inner,
-    .service-flip.tapped .service-flip-inner {
-      transform: rotateY(180deg);
-    }
   }
   @media (max-width: 600px) {
     .services-f, .services {
       padding: 60px 20px !important;
     }
-    .services-grid {
+    .servF-grid {
       grid-template-columns: 1fr !important;
       gap: 18px !important;
     }
-    .services-card {
-      min-height: 280px !important;
-    }
-    .services-card-front, .services-card-back {
-      padding: 28px 22px !important;
-    }
-    .services-title {
-      font-size: 20px !important;
-    }
     /* Indication "tap to flip" plus visible sur mobile */
-    .services-card-front::after {
-      content: '◐' !important;
-      position: absolute !important;
-      bottom: 16px !important;
-      right: 16px !important;
-      font-size: 18px !important;
-      color: var(--gold) !important;
-      opacity: 0.5 !important;
-    }
   }
 
   /* === ZONES mobile (Carrousel) === */
@@ -3422,9 +3400,6 @@
 
   /* === Désactiver hover sur tactile (évite les sticky hovers) === */
   @media (hover: none) {
-    .services-card:hover .services-card-inner {
-      transform: none;
-    }
     .villa-card:hover, .zone-card:hover, .temoi-card:hover,
     .contact-option:hover, .footer-social:hover, .navbar-cta:hover {
       transform: none !important;
@@ -3438,6 +3413,37 @@
   }
   section, footer, nav, .hero {
     overflow-x: hidden;
+  }
+
+
+  /* === SERVICES : Cards Flip avec tap mobile (FIX) === */
+  /* Sur tactile : on désactive le hover et on utilise la classe .flipped via JS */
+  @media (hover: none) and (pointer: coarse) {
+    .servF-card-wrap:hover .servF-card,
+    .servF-card-wrap:focus-within .servF-card {
+      transform: none; /* annule le hover */
+    }
+    .servF-card-wrap.flipped .servF-card {
+      transform: rotateY(180deg);
+    }
+    .servF-card-wrap.flipped .servF-flip-hint::after {
+      transform: rotate(180deg);
+    }
+  }
+
+  /* Indicateur tap visible sur mobile */
+  @media (max-width: 600px) {
+    .servF-flip-hint {
+      animation: tapPulse 2s ease-in-out infinite;
+    }
+    @keyframes tapPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    /* Cards plus petites et compactes */
+    .servF-card-wrap {
+      aspect-ratio: 5 / 6 !important;
+    }
   }
 
 </style>
@@ -4989,6 +4995,47 @@ rare</div>
 
   </div>
 </footer>
+
+
+<script>
+// === FLIP CARDS SERVICES — gestion tap sur mobile ===
+(function() {
+  const cards = document.querySelectorAll('.servF-card-wrap');
+  if (!cards.length) return;
+
+  // Détection tactile
+  const isTouchDevice = (window.matchMedia && window.matchMedia('(hover: none)').matches) || ('ontouchstart' in window);
+
+  cards.forEach(card => {
+    card.addEventListener('click', function(e) {
+      // Ne pas flip si on clique sur un lien à l'intérieur
+      if (e.target.closest('a, button')) return;
+
+      // Sur mobile/tactile : toggle de la classe .flipped
+      if (isTouchDevice) {
+        // Fermer les autres cards déjà ouvertes
+        cards.forEach(c => {
+          if (c !== card) c.classList.remove('flipped');
+        });
+        // Toggle celle-ci
+        card.classList.toggle('flipped');
+      }
+    });
+
+    // Sur touch : aussi gérer touchstart pour réactivité
+    if (isTouchDevice) {
+      card.style.cursor = 'pointer';
+    }
+  });
+
+  // Refermer si on clique en dehors
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.servF-card-wrap')) {
+      cards.forEach(c => c.classList.remove('flipped'));
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
